@@ -76,7 +76,29 @@ class MarcaController extends Controller
             );
         }
 
-        $request->validate($marca->rules(), $marca->feedback());
+        $regrasDinamicas = array();
+
+        if($request->method === 'PATCH') {
+
+            // Percorrendo todas as regras do Model
+            foreach($marca->rules() as $input => $regra) {
+
+                /* Coletando apenas as regras aplicáveis
+                 aos parâmetros parciais da requisição */
+                if(array_key_exists($index, $request->all())){
+                    $regrasDinamicas[$input] = $regra;
+                }
+            }
+            
+            $request->validate($regrasDinamicas, $marca->feedback());
+
+        } else {
+
+            // Validação por 'PUT'
+            $request->validate($marca->rules(), $marca->feedback());
+        }
+
+        
 
         $marca->update($request->all());
 
