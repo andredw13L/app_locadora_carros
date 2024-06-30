@@ -12,10 +12,22 @@ class Marca extends Model
 
     public function rules() {
         return [
-            'nome' => 'required|unique:marcas|min:2',
+            'nome' => 'required|unique:marcas,nome,'.$this->id.'|min:2',
             'imagem' => 'required'
         ];
     }
+
+    /*  A regra unique aceita três parâmetros:
+
+        1) Tabela: ex:(marcas)
+
+        2) Nome da coluna: ex:(nome)
+
+        3) Id do registro que será desconsiderado na pesquisa:
+            ex:(.$this->id.)
+    */
+    
+
     public function feedback() {
         return [
             'required' => 'O campo :attribute é obrigatório',
