@@ -10,6 +10,7 @@ class Marca extends Model
     use HasFactory;
     protected $fillable = ['nome', 'imagem'];
 
+
     public function rules() {
         return [
             'nome' => 'required|unique:marcas,nome,'.$this->id.'|min:2',
@@ -33,7 +34,7 @@ class Marca extends Model
             'required' => 'O campo :attribute é obrigatório',
             'imagem.mimes' => 'O arquivo deve ser uam imagem do tipo PNG',
             'nome.unique' => 'o nome da marca já existe',
-            'nome.min' => 'O nome deve ter no mínimo 3 caracteres'
+            'nome.min' => 'O nome deve ter no mínimo 2 caracteres'
         ];
     }
 }

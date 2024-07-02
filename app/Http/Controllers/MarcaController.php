@@ -41,7 +41,7 @@ class MarcaController extends Controller
         // O armazenamento pode ser configurado em:
         // config/filesystems.php
         
-        $imagem_urn = $imagem->store('imagens', 'public');
+        $imagem_urn = $imagem->store('imagens/marcas', 'public');
 
         $marca = $this->marca->create([
             'nome' => $request->nome,
@@ -89,10 +89,9 @@ class MarcaController extends Controller
         }
 
 
-        $regrasDinamicas = array();
-
-
         if($request->method === 'PATCH') {
+
+            $regrasDinamicas = array();
 
             // Percorrendo todas as regras do Model
             foreach($marca->rules() as $input => $regra) {
@@ -115,13 +114,13 @@ class MarcaController extends Controller
         
         // Remove o arquivo antigo
         if($request->file('imagem')) {
-            Storage::disk('local')->delete($marca->imagem);
+            Storage::disk('public')->delete($marca->imagem);
         }
 
 
         $imagem = $request->file('imagem');
         
-        $imagem_urn = $imagem->store('imagens', 'public');
+        $imagem_urn = $imagem->store('imagens/marcas', 'public');
 
 
         $marca->update([
@@ -151,7 +150,7 @@ class MarcaController extends Controller
         }
 
 
-        Storage::disk('local')->delete($marca->imagem);
+        Storage::disk('public')->delete($marca->imagem);
 
 
         $marca->delete();
