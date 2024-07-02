@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Marca;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MarcaController extends Controller
 {
@@ -77,6 +78,7 @@ class MarcaController extends Controller
 
         $marca = $this->marca->find($id);
 
+
         if ($marca === null) {
             return response()->json([
             'erro' => 
@@ -86,7 +88,9 @@ class MarcaController extends Controller
             );
         }
 
+
         $regrasDinamicas = array();
+
 
         if($request->method === 'PATCH') {
 
@@ -108,9 +112,17 @@ class MarcaController extends Controller
             $request->validate($marca->rules(), $marca->feedback());
         }
 
+        
+        // Remove o arquivo antigo
+        if($request->file('imagem')) {
+            Storage::disk('local')->delete($marca->imagem);
+        }
+
+
         $imagem = $request->file('imagem');
         
         $imagem_urn = $imagem->store('imagens', 'public');
+
 
         $marca->update([
             'nome' => $request->nome,
@@ -137,6 +149,10 @@ class MarcaController extends Controller
                 404
                 );
         }
+
+
+        Storage::disk('local')->delete($marca->imagem);
+
 
         $marca->delete();
 
