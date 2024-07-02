@@ -35,6 +35,13 @@ class MarcaController extends Controller
 
         $request->validate($this->marca->rules(), $this->marca->feedback());
 
+        $imagem = $request->file('image');
+
+        // O armazenamento pode ser configurado em:
+        // config/filesystems.php
+        
+        $image->store('imagens', 'public');
+
         $marca = $this->marca->create($request->all());
 
         return response()->json($marca, 201);
