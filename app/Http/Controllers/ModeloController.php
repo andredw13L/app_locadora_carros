@@ -148,6 +148,7 @@ class ModeloController extends Controller
         }
 
 
+        // Remove o arquivo antigo
         Storage::disk('public')->delete($modelo->imagem);
 
 
