@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('imagem', 100);
             $table->integer('numero_portas');
             $table->integer('lugares');
-            $table->boolean('air_bag');
-            $table->boolean('abs');
+            $table->boolean('air_bag')->default("0");
+            $table->boolean('abs')->default("0");
             $table->timestamps();
     
             //foreign key (constraints)
@@ -33,5 +33,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('modelos');
+        
     }
 };
