@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Marca;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Modelo extends Model
 {
@@ -30,6 +32,12 @@ class Modelo extends Model
             'air_bag' => 'required|boolean',
             'abs' => 'required|boolean' // true, false, 1, 0, "0", "1"
         ];
+    }
+
+
+    public function marca(): BelongsTo {
+        // Um modelo pertence a uma marca
+        return $this->belongsTo(Marca::class);
     }
     
 }

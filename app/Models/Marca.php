@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Modelo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Marca extends Model
 {
@@ -36,5 +38,10 @@ class Marca extends Model
             'nome.unique' => 'o nome da marca já existe',
             'nome.min' => 'O nome deve ter no mínimo 2 caracteres'
         ];
+    }
+
+    public function modelos(): HasMany {
+        // Uma marca possui muitos modelos
+        return $this->hasMany(Modelo::class);
     }
 }
