@@ -14,7 +14,7 @@ class Modelo extends Model
         'imagem', 
         'numero_portas', 
         'lugares', 
-        'air-bag', 
+        'air_bag', 
         'abs'
     ];
 
