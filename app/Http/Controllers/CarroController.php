@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carro;
-use App\Http\Requests\StoreCarroRequest;
-use App\Http\Requests\UpdateCarroRequest;
 use Illuminate\Http\Request;
 use App\Repositories\CarroRepository;
 
@@ -65,7 +63,11 @@ class CarroController extends Controller
     {
         $carro = $this->carro->with('modelo')->find($id);
         if($carro === null) {
-            return response()->json(['erro' => 'Recurso pesquisado não existe'], 404) ;
+            return response()->json([
+                'erro' => 'Recurso pesquisado não existe'
+                ], 
+                404
+            ) ;
         } 
 
         return response()->json($carro, 200);
@@ -79,7 +81,13 @@ class CarroController extends Controller
         $carro = $this->carro->find($id);
 
         if($carro === null) {
-            return response()->json(['erro' => 'Impossível realizar a atualização. O recurso solicitado não existe'], 404);
+            return response()->json([
+                'erro' => 
+                'Impossível realizar a atualização. 
+                 O recurso solicitado não existe'
+                ], 
+                404
+            );
         }
 
         if($request->method() === 'PATCH') {
@@ -115,11 +123,21 @@ class CarroController extends Controller
         $carro = $this->carro->find($id);
 
         if($carro === null) {
-            return response()->json(['erro' => 'Impossível realizar a exclusão. O recurso solicitado não existe'], 404);
+            return response()->json([
+                'erro' => 
+                'Impossível realizar a exclusão. 
+                 O recurso solicitado não existe'
+                ], 
+                404
+            );
         }
 
         $carro->delete();
-        return response()->json(['msg' => 'O carro foi removido com sucesso!'], 200);
+        return response()->json([
+            'msg' => 'O carro foi removido com sucesso!'
+            ], 
+            200
+        );
         
     }
 }
