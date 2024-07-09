@@ -31,13 +31,14 @@ class AuthController extends Controller
 
 
     public function logout() {
-        return 'logout';
+
+        auth('api')->logout(true); // Cliente encaminhe um jwt válido
+
+        return response()->json(['msg' => 'Logout foi realizado com sucesso!']);
     }
 
 
     public function refresh() {
-
-        
 
         $token = auth('api')->refresh(true); // Cliente encaminhe um jwt válido
 
