@@ -18,8 +18,11 @@ const app = createApp({});
 import ExampleComponent from './components/ExampleComponent.vue';
 app.component('example-component', ExampleComponent);
 
-import LoginVue from './components/Login.vue';
-app.component('login-component', LoginVue);
+import Login from './components/Login.vue';
+app.component('login-component', Login);
+
+import Home from './components/Home.vue';
+app.component('home-component', Home);
 
 /**
  * The following block of code may be used to automatically register your
