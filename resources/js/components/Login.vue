@@ -6,14 +6,14 @@
                     <div class="card-header">Login (Component Vue)</div>
 
                     <div class="card-body">
-                        <form method="POST" action="">
+                        <form method="POST" action="" @submit.prevent="login($event)">
                             <input type="hidden" name="_token" :value="csrf_token">
                             <div class="row mb-3">
                                 <label for="email" class="col-md-4 col-form-label text-md-end">E-mail</label>
 
                                 <div class="col-md-6">
                                     <input id="email" type="email" class="form-control" name="email" value="" required
-                                        autocomplete="email" autofocus>
+                                        autocomplete="email" autofocus v-model="email">
                                 </div>
                             </div>
 
@@ -22,7 +22,7 @@
 
                                 <div class="col-md-6">
                                     <input id="password" type="password" class="form-control" name="password" required
-                                        autocomplete="current-password">
+                                        autocomplete="current-password" v-model="password">
                                 </div>
                             </div>
 
@@ -60,6 +60,33 @@
 
 <script>
     export default {
-        props: [ 'csrf_token' ]
+        props: [ 'csrf_token' ],
+    
+        data() {
+            return {
+                email: this.email,
+                password: this.password
+            }
+        },
+
+        methods: {
+            login(e) {
+                fetch('http://localhost:8000/api/login', {
+                    method: 'POST',
+                    body: new URLSearchParams ({
+                        'email': this.email,
+                        'password': this.password
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.token) {
+                        document.cookie = 'token='+data.token+';SameSite=Lax'
+                    }
+                    // Dar sequência no envio do form autenticado por sessão
+                    e.target.submit()
+                })
+            }
+        }
     }
 </script>
