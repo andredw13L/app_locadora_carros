@@ -17,11 +17,11 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('cliente', ClienteController::class);
-Route::apiResource('carro', CarroController::class);
-Route::apiResource('locacao', LocacaoController::class);
-Route::apiResource('marca', MarcaController::class);
-Route::apiResource('modelo', ModeloController::class);
+Route::apiResource('cliente', ClienteController::class)->middleware('auth:api');
+Route::apiResource('carro', CarroController::class)->middleware('auth:api');
+Route::apiResource('locacao', LocacaoController::class)->middleware('auth:api');
+Route::apiResource('marca', MarcaController::class)->middleware('auth:api');
+Route::apiResource('modelo', ModeloController::class)->middleware('auth:api');
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout',  [AuthController::class, 'logout']);
