@@ -37,7 +37,10 @@ import Card from './components/Card.vue';
 app.component('card-component', Card);
 
 import Modal from './components/Modal.vue';
-app.component('modal-component', Modal);Modal
+app.component('modal-component', Modal);
+
+import Alert from './components/Alert.vue';
+app.component('alert-component', Alert);
 
 /**
  * The following block of code may be used to automatically register your
