@@ -25,7 +25,7 @@
                     </template>
 
                     <template v-slot:rodape>
-                        <button type="submit" class="btn btn-primary btn-sm ms-auto float-right">Pesquisar</button>
+                        <button type="submit" class="btn btn-primary btn-sm ms-auto float-right" style="height: 3em;">Pesquisar</button>
                     </template>
                 </card-component>
                 <!-- Fim do card de busca -->
@@ -46,7 +46,12 @@
                     </template>
 
                     <template v-slot:rodape>
-                        <button type="button" class="btn btn-primary btn-sm ms-auto float-right"  data-bs-toggle="modal" data-bs-target="#modalMarca">Adicionar</button>
+                        <paginate-component>
+                            <li v-for="l , key in marcas.links" :key="key" class="page-item">
+                                <a class="page-link" href="#" v-html="l.label"></a>
+                            </li>
+                        </paginate-component>
+                        <button type="button" class="btn btn-primary btn-sm ms-auto float-right" style="height: 3em;"  data-bs-toggle="modal" data-bs-target="#modalMarca">Adicionar</button>
                     </template>
                 </card-component>
                 <!-- Fim do card de listagem de marcas -->
