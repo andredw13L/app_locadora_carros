@@ -3,28 +3,18 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col" v-for="t, key in titulos" :key="key" class="text-uppercase">{{ t }}</th>
+                    <th scope="col" v-for="t, key in titulos" :key="key">{{ t.titulo }}</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="obj in dados" :key="obj.id">            
-                    <template v-for="(valor, chave) in obj">
-                        <td v-if="titulos.includes(chave)" :key="chave">
-                            <span v-if="chave == 'imagem'">
-                                <img 
-                                 :src="'storage/' + valor" 
-                                 width="55" 
-                                 height="55"
-                                />
-                            </span>
-                            <span v-else> {{ valor }}</span>
-                        </td>
-                    </template>
-                    <!--
-                    <th scope="row">{{ m.id }}</th>
-                    <td>{{ m.nome }}</td>
-                    <td><img :src="'/storage/' + m.imagem" width="55" height="55"></td> 
-                    -->
+                <tr v-for="obj, chave in dadosFiltrados" :key="chave">
+                    <td v-for="valor, chaveValor in obj" :key="chaveValor">
+                        <span v-if="titulos[chaveValor].tipo == 'texto'">{{ valor }}</span>
+                        <span v-if="titulos[chaveValor].tipo == 'data'">{{ '...' + valor }}</span>
+                        <span v-if="titulos[chaveValor].tipo == 'imagem'">
+                            <img :src="'storage/' + valor" width="55" height="55"/>
+                        </span>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -33,6 +23,29 @@
 
 <script>
     export default {
-        props: ['dados', 'titulos']
+        props: ['dados', 'titulos'],
+
+        computed: {
+            dadosFiltrados() {
+
+                const campos = Object.keys(this.titulos)
+
+                const dadosFiltrados = []
+
+                this.dados.map((item, chave) => {
+
+                    let itemFiltrado = {}
+
+                    campos.forEach(campo => {
+                        itemFiltrado[campo] = item[campo]
+                    })
+
+                    dadosFiltrados.push(itemFiltrado)
+
+                })
+
+                return dadosFiltrados
+            }
+        }
     }
 </script>
