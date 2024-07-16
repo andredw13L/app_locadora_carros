@@ -33,8 +33,8 @@
                 <!-- Início do card de listagem de marcas -->
                 <card-component titulo="Relação de marcas">
                     <template v-slot:conteudo>
-                        <table-component
-                         :dados="marcas"
+                        <table-component v-if="marcas.data"
+                         :dados="marcas.data"
 
                          :titulos = "{
                             id: {titulo: 'ID', tipo: 'texto'},
