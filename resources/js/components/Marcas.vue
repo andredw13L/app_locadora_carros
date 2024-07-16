@@ -33,7 +33,7 @@
                 <!-- Início do card de listagem de marcas -->
                 <card-component titulo="Relação de marcas">
                     <template v-slot:conteudo>
-                        <table-component v-if="marcas.data"
+                        <table-component
                          :dados="marcas.data"
 
                          :titulos = "{
@@ -88,7 +88,7 @@
                 arquivoImagem: [],
                 transacaoStatus: '',
                 transacaoDetalhes: {},
-                marcas: []
+                marcas: { data: [] }
             }
         },
 
