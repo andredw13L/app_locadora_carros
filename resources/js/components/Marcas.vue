@@ -47,8 +47,11 @@
 
                     <template v-slot:rodape>
                         <paginate-component>
-                            <li v-for="l , key in marcas.links" :key="key" class="page-item">
-                                <a class="page-link" href="#" v-html="l.label"></a>
+                            <li v-for="l , key in marcas.links" :key="key" 
+                                :class="l.active ? 'page-item active' : 'page-item'" 
+                                @click="paginacao(l)"
+                            >
+                                <a class="page-link" v-html="l.label"></a>
                             </li>
                         </paginate-component>
                         <button type="button" class="btn btn-primary btn-sm ms-auto float-right" style="height: 3em;"  data-bs-toggle="modal" data-bs-target="#modalMarca">Adicionar</button>
@@ -112,6 +115,14 @@
         },
 
         methods: {
+
+            paginacao(l) {
+
+                if(l.url) {
+                    this.urlBase = l.url // Ajustando a url com o parâmetro de página
+                    this.carregarLista() // Requisitando novamente os dados para a API
+                }
+            },
 
             carregarLista() {
 
