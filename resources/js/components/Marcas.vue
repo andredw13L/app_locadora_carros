@@ -102,6 +102,9 @@
                 <input-container-component titulo="Nome da marca">
                     <img :src="'storage/' + $store.state.item.imagem" v-if="$store.state.item.imagem">
                 </input-container-component>
+                <input-container-component titulo="Data de criação">
+                    <input type="text" class="form-control" :value="$store.state.item.created_at" disabled>
+                </input-container-component>
             </template>
             <template v-slot:rodape>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
