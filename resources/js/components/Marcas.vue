@@ -10,7 +10,7 @@
                             <div class="col mb-3">
                                 <input-container-component titulo="ID" id="inputId" id-help="idHelp"
                                     texto-ajuda="Opcional. Informe o ID da marca">
-                                    <input type="number" class="form-control" id="inputId" aria-describedby="idHelp"
+                                    <input type="number" min="0" oninput="this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value) : null" class="form-control" id="inputId" aria-describedby="idHelp"
                                         placeholder="ID" v-model="busca.id">
                                 </input-container-component>
                             </div>
@@ -92,6 +92,8 @@
         data() {
             return {
                 urlBase: 'http://localhost:8000/api/v1/marca',
+                urlPaginacao: '',
+                urlFiltro: '',
                 nomeMarca: '',
                 arquivoImagem: [],
                 transacaoStatus: '',
@@ -133,13 +135,20 @@
                     
                 }
 
-                console.log(filtro);
+                if(filtro != '') {
+                    this.urlPaginacao = 'page=1'
+                    this.urlFiltro = '&filtro=' + filtro
+                } else {
+                    this.urlFiltro = ''
+                }
+
+                this.carregarLista()
             },
 
             paginacao(l) {
 
                 if(l.url) {
-                    this.urlBase = l.url // Ajustando a url com o parâmetro de página
+                    this.urlPaginacao = l.url.split('?')[1] // Ajustando a url com o parâmetro de página
                     this.carregarLista() // Requisitando novamente os dados para a API
                 }
             },
@@ -154,7 +163,10 @@
                 }
 
 
-                axios.get(this.urlBase, config)
+                const url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro
+                console.log(url);
+
+                axios.get(url, config)
                     .then(response => {
                         this.marcas = response.data
                         //console.log(this.marcas);
