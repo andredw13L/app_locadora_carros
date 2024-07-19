@@ -99,7 +99,7 @@
                 <input-container-component titulo="Nome da marca">
                     <input type="text" class="form-control" :value="$store.state.item.nome" disabled>
                 </input-container-component>
-                <input-container-component titulo="Nome da marca">
+                <input-container-component titulo="Imagem">
                     <img :src="'storage/' + $store.state.item.imagem" v-if="$store.state.item.imagem">
                 </input-container-component>
                 <input-container-component titulo="Data de criação">
