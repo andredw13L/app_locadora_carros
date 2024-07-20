@@ -11,8 +11,7 @@
                 <tr v-for="obj, chave in dadosFiltrados" :key="chave">
                     <td v-for="valor, chaveValor in obj" :key="chaveValor">
                         <span v-if="titulos[chaveValor].tipo == 'texto'">{{ valor }}</span>
-                        <!-- TODO: Formatação da exibição da data-->
-                        <span v-if="titulos[chaveValor].tipo == 'data'">{{ '...' + valor }}</span>
+                        <span v-if="titulos[chaveValor].tipo == 'data'">{{ formataDataTempo(valor) }}</span>
                         <span v-if="titulos[chaveValor].tipo == 'imagem'">
                             <img :src="'storage/' + valor" width="55" height="55"/>
                         </span>
@@ -38,6 +37,29 @@
                 this.$store.state.transacao.mensagem = ''
                 this.$store.state.transacao.dados = ''
                 this.$store.state.item = obj
+            },
+
+
+            // TODO: tornar o método global
+            formataDataTempo(d) {
+                if(!d) {
+                    return ''
+                }
+
+                d = d.split('T')
+
+                let data = d[0]
+                let tempo = d[1]
+
+                // Formatando a data
+                data = data.split('-')
+                data = data[2] + '/' + data[1] + '/' +  data[0]
+
+                // Formatando o tempo
+                tempo = tempo.split('.')
+                tempo = tempo[0]
+
+                return data + ' ' + tempo
             }
         },
 
