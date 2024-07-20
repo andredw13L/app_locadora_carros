@@ -285,7 +285,9 @@
                         this.transacaoDetalhes = {
                             mensagem : 'ID do registro: ' + response.data.id
                         }
-                        console.log(response);
+                        //console.log(response);
+                        // Recarregar a lista após a inserção de uma nova marca
+                        this.carregarLista() 
                     })   
                     .catch(errors => {
                         this.transacaoStatus = 'erro'
