@@ -141,7 +141,7 @@
             <template v-slot:conteudo>
                 <div class="form-group">
                     <input-container-component titulo="Nome da marca" id="atualizarNome" id-help="atualizarNomeHelp" texto-ajuda="Informe o nome da marca">
-                        <input type="text" class="form-control" id="atualizarNome" aria-describedby="atualizarNomeHelp" placeholder="Nome da marca" v-model="nomeMarca">
+                        <input type="text" class="form-control" id="atualizarNome" aria-describedby="atualizarNomeHelp" placeholder="Nome da marca" v-model="$store.state.item.nome">
                     </input-container-component>  
                 </div>
                 <div class="form-group">
@@ -149,6 +149,7 @@
                         <input type="file" class="form-control" id="atualizarImagem" aria-describedby="atualizarImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
                     </input-container-component>
                 </div>
+                {{ $store.state.item }}
             </template>
             <template v-slot:rodape>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -193,7 +194,30 @@
         methods: {
 
             atualizar() {
-                console.log(this.$store.state.item);
+                const formData = new FormData()
+                formData.append('_method', 'patch')
+                formData.append('nome', this.$store.state.item.nome)
+                formData.append('imagem', this.arquivoImagem[0])
+
+                const config = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': this.token,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+
+                const url = this.urlBase + '/' + this.$store.state.item.id
+
+                axios.post(url, formData, config)
+                .then(response =>{
+                    console.log('Atualizado', response);
+                    this.carregarLista()
+                })
+                .catch(errors => {
+                    console.log('Erro na atualização', errors.response);
+                })
+
             },
 
             remover() {
