@@ -175,20 +175,6 @@
             }
         },
 
-        computed: {
-            token() {
-                let token = document.cookie.split(';').find(indice => {
-                    return indice.includes('token=')
-                })
-
-                token = token.split('=')[1]
-                token = 'Bearer ' + token
-
-                return token
-                
-            }
-        },
-
         methods: {
 
             atualizar() {
@@ -203,8 +189,6 @@
 
                 const config = {
                     headers: {
-                        'Accept': 'application/json',
-                        'Authorization': this.token,
                         'Content-Type': 'multipart/form-data'
                     }
                 }
@@ -243,8 +227,6 @@
 
                 const config = {
                     headers: {
-                        'Accept': 'application/json',
-                        'Authorization': this.token,
                         'Content-Type': 'multipart/form-data'
                     }
                 }
@@ -299,17 +281,9 @@
 
             carregarLista() {
 
-                const config = {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Authorization': this.token
-                    }
-                }
-
-
                 const url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro
 
-                axios.get(url, config)
+                axios.get(url)
                     .then(response => {
                         this.marcas = response.data
                     })
@@ -331,8 +305,6 @@
                 const config = {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        'Accept': 'application/json',
-                        'Authorization': this.token
                     }
                 }
 
