@@ -197,7 +197,11 @@
                 const formData = new FormData()
                 formData.append('_method', 'patch')
                 formData.append('nome', this.$store.state.item.nome)
-                formData.append('imagem', this.arquivoImagem[0])
+
+                if(this.arquivoImagem[0]) {
+                    formData.append('imagem', this.arquivoImagem[0])
+                }
+                
 
                 const config = {
                     headers: {
@@ -212,6 +216,8 @@
                 axios.post(url, formData, config)
                 .then(response =>{
                     console.log('Atualizado', response);
+                    // Limpar o campo de seleção de arquivos
+                    atualizarImagem.value = ''
                     this.carregarLista()
                 })
                 .catch(errors => {
