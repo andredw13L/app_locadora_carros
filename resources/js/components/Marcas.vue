@@ -72,14 +72,12 @@
                 <div class="form-group">
                     <input-container-component titulo="Nome da marca" id="novoNome" id-help="novoNomeHelp" texto-ajuda="Informe o nome da marca">
                         <input type="text" class="form-control" id="novoNome" aria-describedby="novoNomeHelp" placeholder="Nome da marca" v-model="nomeMarca">
-                    </input-container-component>  
-                    {{ nomeMarca }}   
+                    </input-container-component>   
                 </div>
                 <div class="form-group">
                     <input-container-component titulo="Imagem" id="novoImagem" id-help="novoImagemHelp" texto-ajuda="Selecione uma imagem no formato PNG">
                         <input type="file" class="form-control" id="novoImagem" aria-describedby="novoImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
-                    </input-container-component>
-                    {{ arquivoImagem }}     
+                    </input-container-component>   
                 </div>
             </template>
             <template v-slot:rodape>
@@ -136,7 +134,8 @@
         <!-- Início do modal de atualização de marca -->
         <modal-component id="modalMarcaAtualizar" titulo="Atualizar marca">
             <template v-slot:alertas>
-              
+                <alert-component tipo="success" titulo="Transação realizada com sucesso" :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'sucesso'"></alert-component>
+                <alert-component tipo="danger" titulo="Erro na transação" :detalhes="$store.state.transacao" v-if="$store.state.transacao.status == 'erro'"></alert-component>
             </template>
             <template v-slot:conteudo>
                 <div class="form-group">
@@ -149,7 +148,6 @@
                         <input type="file" class="form-control" id="atualizarImagem" aria-describedby="atualizarImagemHelp" placeholder="Selecione uma imagem" @change="carregarImagem($event)">
                     </input-container-component>
                 </div>
-                {{ $store.state.item }}
             </template>
             <template v-slot:rodape>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
@@ -215,13 +213,16 @@
 
                 axios.post(url, formData, config)
                 .then(response =>{
-                    console.log('Atualizado', response);
+                    this.$store.state.transacao.status = 'sucesso'
+                    this.$store.state.transacao.mensagem = 'Registro de marca atualizado com sucesso!'
                     // Limpar o campo de seleção de arquivos
                     atualizarImagem.value = ''
                     this.carregarLista()
                 })
                 .catch(errors => {
-                    console.log('Erro na atualização', errors.response);
+                    this.$store.state.transacao.status = 'erro'
+                    this.$store.state.transacao.mensagem = errors.response.data.message
+                    this.$store.state.transacao.dados = errors.response.data.errors
                 })
 
             },
@@ -307,12 +308,10 @@
 
 
                 const url = this.urlBase + '?' + this.urlPaginacao + this.urlFiltro
-                console.log(url);
 
                 axios.get(url, config)
                     .then(response => {
                         this.marcas = response.data
-                        //console.log(this.marcas);
                     })
                     .catch(errors => {
                         console.log(errors);
@@ -343,7 +342,6 @@
                         this.transacaoDetalhes = {
                             mensagem : 'ID do registro: ' + response.data.id
                         }
-                        //console.log(response);
                         // Recarregar a lista após a inserção de uma nova marca
                         this.carregarLista() 
                     })   
